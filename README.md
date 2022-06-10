@@ -10,7 +10,7 @@
 - Pre-determined lawyers in CJ
     - RNG bad
 - Lawyers have 100% chance to attack player
-    - RNG bad\
+    - RNG bad
 
 Tbh I just made this because I keep losing sources from resetting windows lol
 
