@@ -1203,7 +1203,7 @@ LawbotBossLawyerPosHprs = [(-57,
   0)]
 LawbotBossLawyerCycleTime = 6
 LawbotBossLawyerToPanTime = 2.5
-LawbotBossLawyerChanceToAttack = 50
+LawbotBossLawyerChanceToAttack = 100
 LawbotBossLawyerHeal = 2
 LawbotBossLawyerStunTime = 5
 LawbotBossDifficultySettings = [(38,
