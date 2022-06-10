@@ -863,17 +863,17 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         for i in xrange(self.numLawyers):
             suit = DistributedLawbotBossSuitAI.DistributedLawbotBossSuitAI(self.air, None)
             suit.dna = SuitDNA.SuitDNA()
-            lawCog = random.choice(lawCogChoices)
-            #if (i == 0): lawCog = 'le' #Cog 8
-            #elif (i == 1): lawCog = 'sd' #Cog 7
-            #elif (i == 2): lawCog = 'sd' #Cog 6
-            #elif (i == 3): lawCog = 'dt' #Cog 5
-            #elif (i == 4): lawCog = 'dt' #Cog 4
-            #elif (i == 5): lawCog = 'bs' #Cog 3
-            #elif (i == 6): lawCog = 'b' #Cog 2
-            #elif (i == 7): lawCog = 'le' #Cog 1
-            #elif (i == 8): lawCog = 'le' #Cog 9
-            #elif (i == 9): lawCog = 'bw' #Cog 10
+            #lawCog = random.choice(lawCogChoices)
+            if (i == 0): lawCog = 'bs' #Cog 8
+            elif (i == 1): lawCog = 'bw' #Cog 7
+            elif (i == 2): lawCog = 'le' #Cog 6
+            elif (i == 3): lawCog = 'bs' #Cog 5
+            elif (i == 4): lawCog = 'ac' #Cog 4
+            elif (i == 5): lawCog = 'sd' #Cog 3
+            elif (i == 6): lawCog = 'bw' #Cog 2
+            elif (i == 7): lawCog = 'le' #Cog 1
+            elif (i == 8): lawCog = 'bw' #Cog 9
+            elif (i == 9): lawCog = 'bs' #Cog 10
             #elif (i == 10): lawCog = 'le' #Cog 8m
             #elif (i == 11): lawCog = 'bs' #Cog 7m
             #elif (i == 12): lawCog = 'b' #Cog 6m
