@@ -157,7 +157,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
             raise Exception("Please pass in either 'ttcc' or 'ttr', got %s" % game)
 
     def __handleForwardPress(self):
-
+        return
         if not self.allowSprinting or self.hp <= 0:
             return
 
@@ -175,7 +175,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.lastForwardPress = time.time()
 
     def __handleForwardRelease(self):
-
+        return
         # If this isn't the ttr mode don't do anything
         if self.currentMovementMode is not self.TTR_MOVEMENT_VALUES:
             return
