@@ -1,6 +1,7 @@
 # Stuff + why
 - Auto sniping and lobbing binds + snipe delta logging (see: https://github.com/StarsAndLicorice/CJ)
     - All records were set with AHK, this is more efficient and more transparent
+    - Uses 600ms throws, can use git status + last modified date etc. to cheat clear runs (to some extent)
 - No sprinting in TTR mode
     - All records using TTR camera mode were set without sprinting
 - No magic word whisper pop-ups
