@@ -1,21 +1,17 @@
-# Toontown-School-House, Crane League Edition
-Welcome to the repository of the Crane League version of the Toontown School House source code!
+# Stuff + why
+- Auto sniping and lobbing binds + snipe delta logging (see: https://github.com/StarsAndLicorice/CJ)
+    - All records were set with AHK, this is more efficient and more transparent
+- No sprinting in TTR mode
+    - All records using TTR camera mode were set without sprinting
+- No magic word whisper pop-ups
+    - Eats FPS = slower throws
+    - It's logged via notify.info anyway
+- Pre-determined lawyers in CJ
+    - RNG bad
+- Lawyers have 100% chance to attack player
+    - RNG bad\
 
-Toontown School House is a course dedicated to teaching members of the Toontown community how to develop for the game. For more information, head over to [this](https://www.reddit.com/r/Toontown/comments/doszgg/toontown_school_house_learn_to_develop_for/) Reddit post.
-
-
-# Source Code
-This source code is based on a March 2019 fork of Toontown Offline v1.0.0.0 used for Toontown School House. It has been stripped of all Toontown Offline exclusive features, save one. The brand new Magic Words system made for Toontown Offline has been left alone, and upgraded to the most recent build. This feature will allow users to easily navigate around Toontown without any hassle.
-
-Credits:
-* [The Toontown Offline Team](https://ttoffline.com)
-* [Astron](https://github.com/Astron/Astron)
-* [Panda3D](https://github.com/panda3d/panda3d) (More specifically, the modified Astron Panda3D which can be found [here](https://github.com/Astron/panda3d))
-* [libpandadna](https://github.com/loblao/libpandadna)
-* [libotp-movement](https://github.com/jwcotejr/libotp-movement)
-* [libotp-nametags](https://github.com/loblao/libotp-nametags)
-* Reverse-engineered Toontown Online client/server source code is property of The Walt Disney Company.
-
+Tbh I just made this because I keep losing sources from resetting windows lol
 
 # Panda3D
 This source code requires a customized version of Panda3D to run. Here are links to the 32 and 64 bit Windows executables.
