@@ -18,6 +18,7 @@ from otp.login import LeaveToPayDialog
 from otp.avatar import PositionExaminer
 from otp.otpbase import OTPGlobals
 from otp.avatar import DistributedPlayer
+#from otp.avatar import DistributedAvatarAI
 from toontown.shtiker import ShtikerBook
 from toontown.shtiker import InventoryPage
 from toontown.shtiker import MapPage
@@ -390,10 +391,11 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             guiButton = loader.loadModel('phase_3/models/gui/quit_button')
             self.purchaseButton = DirectButton(parent=aspect2d, relief=None, image=(guiButton.find('**/QuitBtn_UP'), guiButton.find('**/QuitBtn_DN'), guiButton.find('**/QuitBtn_RLVR')), image_scale=0.9, text=TTLocalizer.OptionsPagePurchase, text_scale=0.05, text_pos=(0, -0.01), textMayChange=0, pos=(0.885, 0, -0.94), sortOrder=100, command=self.__handlePurchase)
             base.setCellsAvailable([base.bottomCells[4]], 0)
-        self.accept('time-insert', self.__beginTossPie)
-        self.accept('time-insert-up', self.__endTossPie)
         self.accept('time-delete', self.__beginTossPie)
         self.accept('time-delete-up', self.__endTossPie)
+        self.accept('f5', self.__snipeHeld)
+        self.accept('f6', self.__snipeReleased)
+        self.accept('f7', self.__autoLob)
         self.accept('pieHit', self.__pieHit)
         self.accept('interrupt-pie', self.interruptPie)
         self.accept('InputState-jump', self.__toonMoved)
@@ -667,6 +669,74 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.localTossPie(power)
         return
 
+    def __snipeHeld(self):
+        self.lastTossedPie = -1
+        #Create snipe spam task
+        taskName = self.uniqueName('snipeCont')
+        taskMgr.add(self.__snipeCont, taskName)
+        return
+
+    def __snipeCont(self, task):
+        #Pie throw speed checking
+        pie = self.pieTracks.get(self.__pieSequence)
+        if pie and pie.getT() < 0.6:
+            return Task.cont
+        #Generic pie throw legality checking
+        if self.tossPieStart != None:
+            return Task.cont
+        if not self.allowPies:
+            return Task.cont
+        if self.numPies == 0:
+            messenger.send('outOfPies')
+            return Task.cont #Keeping this as Task.cont on purpose
+        if self.__pieInHand():
+            return Task.cont
+        if getattr(self.controlManager.currentControls, 'isAirborne', 0):
+            return Task.cont
+        self.localPresentPie(globalClock.getFrameTime())
+        if self.tossPieStart == None:
+            return Task.cont
+        self.tossPieStart = None
+        #And finally throw a snipe
+        self.localTossPie(0)
+        return Task.cont
+
+    def __snipeReleased(self):
+        #Kill snipe spam task
+        taskName = self.uniqueName('snipeCont')
+        taskMgr.remove(taskName)
+        return
+
+    def __autoLob(self):
+        self.lastTossedPie = -1
+        #Start queueLob spam task
+        taskName = self.uniqueName('queueLob')
+        taskMgr.add(self.__queueLob, taskName)
+        return
+
+    def __queueLob(self, task):
+        #Pie throw speed checking
+        pie = self.pieTracks.get(self.__pieSequence)
+        if pie and pie.getT() < 0.6:
+            return Task.cont
+        #Generic pie throw legality checking
+        if self.tossPieStart != None:
+            return
+        if not self.allowPies:
+            return
+        if self.numPies == 0:
+            messenger.send('outOfPies')
+            return
+        if self.__pieInHand():
+            return
+        if getattr(self.controlManager.currentControls, 'isAirborne', 0):
+            return
+        self.localPresentPie(globalClock.getFrameTime())
+        #Charge up to 100
+        taskName = self.uniqueName('updateLobPower')
+        taskMgr.add(self.__updateLobPower, taskName)
+        return Task.done #Stops task after one successful lob
+
     def localPresentPie(self, time):
         import TTEmote
         from otp.avatar import Emote
@@ -727,19 +797,29 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.__piePowerMeter['value'] = self.__getPiePower(globalClock.getFrameTime())
         return Task.cont
 
+    def __updateLobPower(self, task):
+        if not self.__piePowerMeter:
+            return Task.done
+        self.__piePowerMeter['value'] = self.__getPiePower(globalClock.getFrameTime())
+        if self.__piePowerMeter['value'] >= 95: #Change this to a lower value if you have FPS issues
+            self.tossPieStart = None
+            self.localTossPie(self.__piePowerMeter['value'])
+            return Task.done
+        return Task.cont
+
     def interruptPie(self):
         self.cleanupPieInHand()
         self.__stopPresentPie()
         if self.__piePowerMeter:
             self.__piePowerMeter.hide()
         pie = self.pieTracks.get(self.__pieSequence)
-        if pie and pie.getT() < 14.0 / 24.0:
+        if pie and pie.getT() < 0.6:
             del self.pieTracks[self.__pieSequence]
             pie.pause()
 
     def __pieInHand(self):
         pie = self.pieTracks.get(self.__pieSequence)
-        return pie and pie.getT() < 15.0 / 24.0
+        return pie and pie.getT() < 0.6
 
     def __toonMoved(self, isSet):
         return
@@ -747,8 +827,7 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
             self.interruptPie()
 
     def localTossPie(self, power):
-        if not self.__presentingPie:
-            return
+        messenger.send('wakeup')
         pos = self.getPos()
         hpr = self.getHpr()
         timestamp32 = globalClockDelta.getFrameNetworkTime(bits=32)
@@ -770,6 +849,12 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         self.__piePowerMeter.show()
         self.__piePowerMeterSequence = sequence
         pieBubble = self.getPieBubble().instanceTo(NodePath())
+        #Logs time-loss per consecutive snipe
+        if self.lastTossedPie != -1:
+            self.currentThrow = globalClock.getFrameTime()
+            self.notify.info("[snipe] +{0:.2f}ms".format(((self.currentThrow - self.lastTossedPie) - 0.6)*1000))
+        #This is still necessary
+        self.lastTossedPie = globalClock.getFrameTime()
 
         def pieFlies(self = self, pos = pos, hpr = hpr, sequence = sequence, power = power, timestamp32 = timestamp32, pieBubble = pieBubble):
             self.sendUpdate('tossPie', [pos[0],
