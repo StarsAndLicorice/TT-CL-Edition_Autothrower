@@ -1,6 +1,8 @@
 # Hello
 This is a fork of an old TT-CL client but I am bad at git. I cloned TT-CL a long time ago and changed but don't remember exactly which files, so this is a standalone repo now
+
 Press F5 to begin the auto-thrower, press F6 to stop it. Press F7 to queue a 100%~ power lob; you can queue a lob whilst you are in the midst of auto-throwing and it will immediately execute as soon as you stop auto-throwing and are otherwise able to throw pies
+
 Check the game client terminal to see how much time you are losing per throw. Because I am a bad person, this is all done with magic numbers; if you want to use 625ms throw speed, you will also have to change the millisecond deduction done wherever I did the timestamping thing (I also don't remember that) to get accurate results again.
 
 # Panda3D
