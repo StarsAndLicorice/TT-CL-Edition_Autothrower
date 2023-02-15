@@ -813,12 +813,19 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         if self.__piePowerMeter:
             self.__piePowerMeter.hide()
         pie = self.pieTracks.get(self.__pieSequence)
+        #Say we set pie.getT() < 10
+        #If you press delete at t = 0
+        #And you press delete again before t = 10
+        #your pie will be voided
         if pie and pie.getT() < 0.6:
             del self.pieTracks[self.__pieSequence]
             pie.pause()
 
     def __pieInHand(self):
         pie = self.pieTracks.get(self.__pieSequence)
+        #This determines how often you can start a new pie throw sequence
+        #That doesn't mean the pie will spawn, if it's less than 
+        #The interruptPie threshold
         return pie and pie.getT() < 0.6
 
     def __toonMoved(self, isSet):
