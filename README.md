@@ -1,18 +1,7 @@
-# Stuff + why
-- Auto sniping and lobbing binds + snipe delta logging (see: https://github.com/StarsAndLicorice/CJ)
-    - All records were set with AHK, this is more efficient and more transparent
-    - Uses 600ms throws, can use git status + last modified date etc. to cheat clear runs (to some extent)
-- No sprinting in TTR mode
-    - All records using TTR camera mode were set without sprinting
-- No magic word whisper pop-ups
-    - Eats FPS = slower throws
-    - It's logged via notify.info anyway
-- Pre-determined lawyers in CJ
-    - RNG bad
-- Lawyers have 100% chance to attack player
-    - RNG bad
-
-Tbh I just made this because I keep losing sources from resetting windows lol
+# Hello
+This is a fork of an old TT-CL client but I am bad at git. I cloned TT-CL a long time ago and changed but don't remember exactly which files, so this is a standalone repo now
+Press F5 to begin the auto-thrower, press F6 to stop it. Press F7 to queue a 100%~ power lob; you can queue a lob whilst you are in the midst of auto-throwing and it will immediately execute as soon as you stop auto-throwing and are otherwise able to throw pies
+Check the game client terminal to see how much time you are losing per throw. Because I am a bad person, this is all done with magic numbers; if you want to use 625ms throw speed, you will also have to change the millisecond deduction done wherever I did the timestamping thing (I also don't remember that) to get accurate results again.
 
 # Panda3D
 This source code requires a customized version of Panda3D to run. Here are links to the 32 and 64 bit Windows executables.
