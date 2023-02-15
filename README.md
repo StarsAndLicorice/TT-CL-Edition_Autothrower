@@ -1,5 +1,5 @@
 # Hello
-This is a fork of an old TT-CL client but I am bad at git. I cloned TT-CL a long time ago and changed but don't remember exactly which files, so this is a standalone repo now
+This is a fork of an old TT-CL client but I am bad at git. I cloned TT-CL a long time ago and changed a bunch of shit but don't remember exactly what files, so this is a standalone repo now
 
 Press F5 to begin the auto-thrower, press F6 to stop it. Press F7 to queue a 100%~ power lob; you can queue a lob whilst you are in the midst of auto-throwing and it will immediately execute as soon as you stop auto-throwing and are otherwise able to throw pies
 
